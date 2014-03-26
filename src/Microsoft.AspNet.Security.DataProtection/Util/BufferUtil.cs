@@ -72,7 +72,15 @@ namespace Microsoft.AspNet.Security.DataProtection.Util
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ZeroMemory(byte* buffer, uint byteCount)
         {
+#if NET45
             UnsafeNativeMethods.RtlZeroMemory((IntPtr) buffer, (UIntPtr) byteCount); // don't require 'checked': uint -> UIntPtr always guaranteed to succeed
+#else
+            // slow, but works
+            while (byteCount-- != 0)
+            {
+                *(buffer++) = 0;
+            }
+#endif
         }
     }
 }

@@ -15,7 +15,10 @@ namespace Microsoft.AspNet.Security.DataProtection
     {
         private const string BCRYPT_LIB = "bcrypt.dll";
         private const string CRYPT32_LIB = "crypt32.dll";
+        
+#if NET45        
         private const string KERNEL32_LIB = "kernel32.dll";
+#endif
 
         /*
          * BCRYPT.DLL
@@ -188,6 +191,7 @@ namespace Microsoft.AspNet.Security.DataProtection
             [In] uint dwFlags,
             [Out] out DATA_BLOB pDataOut);
 
+#if NET45        
         /*
          * KERNEL32.DLL
          */
@@ -196,5 +200,6 @@ namespace Microsoft.AspNet.Security.DataProtection
         internal static extern void RtlZeroMemory(
             [In] IntPtr Destination,
             [In] UIntPtr /* SIZE_T */ Length);
+#endif
     }
 }
